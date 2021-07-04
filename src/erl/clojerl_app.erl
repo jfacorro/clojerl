@@ -4,6 +4,8 @@
 
 -behavior(application).
 
+-include("clojerl_int.hrl").
+
 -export([unstick/0]).
 
 -export([start/2, stop/1]).
@@ -37,8 +39,14 @@ unstick() ->
 
 -spec init() -> ok.
 init() ->
+  %% Create clje.user namespace
   CljeUserSym = clj_rt:symbol(<<"clje.user">>),
   'clojure.core':'in-ns'(CljeUserSym),
+
+  %% Load env variable to check specs
+  CheckSpecs = os:getenv("clojure.core.check-specs") == "true",
+  clj_cache:put(?CHECK_SPECS, CheckSpecs),
+
   %% This will not be available during bootstrap
   case erlang:function_exported('clojure.core', refer, 2) of
     true ->
