@@ -10,8 +10,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Check git
-      run: git
     - name: Install Erlang
       run: choco install -y erlang --version 22.3
     - name: Install rebar3
