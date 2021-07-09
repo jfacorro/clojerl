@@ -8,7 +8,7 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-latest]
+        platform: [ubuntu-latest, windows-latest]
         otp-version: [19.3, 20.3, 21.3, 22.2, 23.3, 24.0]
     runs-on: ${{ matrix.platform }}
     container:
