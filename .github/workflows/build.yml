@@ -5,42 +5,6 @@ on:
       - opened
       - synchronize
 jobs:
-  linux:
-    strategy:
-      matrix:
-        platform: [ubuntu-latest]
-        otp-version: [19, 20, 21, 22, 23, 24]
-    runs-on: ${{ matrix.platform }}
-    container:
-      image: erlang:${{ matrix.otp-version }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Cache Hex packages
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/rebar3/hex/hexpm/packages
-        key: ${{ runner.os }}-hex-${{ hashFiles(format('{0}{1}', github.workspace, '/rebar.lock')) }}
-        restore-keys: |
-          ${{ runner.os }}-hex-
-    - name: Cache Dialyzer PLTs
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/rebar3/rebar3_*_plt
-        key: ${{ runner.os }}-dialyzer-${{ hashFiles(format('{0}{1}', github.workspace, '/rebar.config')) }}
-        restore-keys: |
-          ${{ runner.os }}-dialyzer-
-    - name: Compile, Test and Validate
-      run: make ci
-    - name: Compile Native
-      run: make clean compile-native
-    - name: Generate Documentation
-      run: make docs
-    - name: Publish Documentation
-      uses: actions/upload-artifact@v1
-      with:
-        name: docs
-        path: doc
   windows:
     runs-on: windows-latest
     steps:
