@@ -5,11 +5,11 @@ on:
       - opened
       - synchronize
 jobs:
-  build:
+  linux:
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-latest]
-        otp-version: [19.3, 20.3, 21.3, 22.2, 23.3, 24.0]
+        platform: [ubuntu-latest]
+        otp-version: [19, 20, 21, 22, 23, 24]
     runs-on: ${{ matrix.platform }}
     container:
       image: erlang:${{ matrix.otp-version }}
@@ -35,7 +35,27 @@ jobs:
     - name: Compile Native
       run: make clean compile-native
     - name: Generate Documentation
-      run: rebar3 docs
+      run: make docs
+    - name: Publish Documentation
+      uses: actions/upload-artifact@v1
+      with:
+        name: docs
+        path: doc
+  windows:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Erlang
+      run: choco install -y erlang --version 22.3
+    - name: Install rebar3
+      run: choco install -y rebar3 --version 3.13.1
+    - name: Compile, Test and Validate
+      run: make ci
+    - name: Compile Native
+      run: make clean compile-native
+    - name: Generate Documentation
+      run: make docs
     - name: Publish Documentation
       uses: actions/upload-artifact@v1
       with:
