@@ -10,10 +10,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Git Clone
+      run: git clone https://github.com/clojerl/test.check
     - name: Install Erlang
       run: choco install -y erlang --version 22.3
     - name: Install rebar3
-      run: choco install -y rebar3 --version 3.13.1
+      run: choco install -y rebar3 --version 3.16.1
     - name: Compile, Test and Validate
       run: set DEBUG=1; make ci
     - name: Compile Native
