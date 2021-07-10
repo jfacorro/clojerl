@@ -11,7 +11,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Configure git and clone
-      run: git config --system core.longpaths true; git clone https://github.com/clojerl/test.check
+      run: git config --global core.protectNTFS false; git clone -c core.longpaths true https://github.com/clojerl/test.check
     - name: Compile, Test and Validate
       run: bash -lc "echo foo"
     - name: Install Erlang
