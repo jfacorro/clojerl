@@ -16,7 +16,7 @@ jobs:
     - name: Compile, Test and Validate
       run: Get-Location
     - name: Path.GetFullPath
-      run: Test-Path -Path "src/target/cljs/self-host/clojure/test/check/test/aux.cljs" -IsValid
+      run: Test-Path -Path "D:/a/clojerl/clojerl/_build/lib/test.check/src/target/cljs/self-host/clojure/test/check/test/aux.cljs" -IsValid
     - name: Configure git and clone
       run: bash -lc "git config --global core.protectNTFS false; git clone -c core.longpaths=true https://github.com/clojerl/test.check"
     - name: Install Erlang
