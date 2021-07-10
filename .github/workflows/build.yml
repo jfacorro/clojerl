@@ -10,16 +10,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Address 'invalid path' issue
-      run: git config core.protectNTFS false
-    - name: Git Clone
-      run: git clone https://github.com/clojerl/test.check -f
     - name: Install Erlang
       run: choco install -y erlang --version 22.3
     - name: Install rebar3
       run: choco install -y rebar3 --version 3.16.1
     - name: Compile, Test and Validate
-      run: set DEBUG=1; make ci
+      run: C:\tools\msys64\usr\bin\bash -lc "make ci"
     - name: Compile Native
       run: make clean compile-native
     - name: Generate Documentation
