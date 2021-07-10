@@ -8,12 +8,15 @@ jobs:
   windows:
     runs-on: windows-latest
     steps:
+    - name: Check LongPathsEnabled
+      run: |
+          (Get-ItemProperty "HKLM:System\CurrentControlSet\Control\FileSystem").LongPathsEnabled
     - name: Checkout
       uses: actions/checkout@v2
     - name: Configure git and clone
       run: bash -lc "git config --global core.protectNTFS false; git clone -c core.longpaths=true https://github.com/clojerl/test.check"
     - name: Compile, Test and Validate
-      run: bash -lc "echo foo"
+      run: bash -lc "echo $PWD"
     - name: Install Erlang
       run: choco install -y erlang --version 22.3
     - name: Install rebar3
