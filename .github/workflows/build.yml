@@ -5,37 +5,30 @@ on:
       - opened
       - synchronize
 jobs:
-  build:
-    strategy:
-      matrix:
-        platform: [ubuntu-latest]
-        otp-version: [19.3, 20.3, 21.3, 22.2, 23.3, 24.0]
-    runs-on: ${{ matrix.platform }}
-    container:
-      image: erlang:${{ matrix.otp-version }}
+  windows:
+    runs-on: windows-latest
     steps:
+    - name: Check LongPathsEnabled
+      run: |
+          (Get-ItemProperty "HKLM:System\CurrentControlSet\Control\FileSystem").LongPathsEnabled
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Cache Hex packages
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/rebar3/hex/hexpm/packages
-        key: ${{ runner.os }}-hex-${{ hashFiles(format('{0}{1}', github.workspace, '/rebar.lock')) }}
-        restore-keys: |
-          ${{ runner.os }}-hex-
-    - name: Cache Dialyzer PLTs
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/rebar3/rebar3_*_plt
-        key: ${{ runner.os }}-dialyzer-${{ hashFiles(format('{0}{1}', github.workspace, '/rebar.config')) }}
-        restore-keys: |
-          ${{ runner.os }}-dialyzer-
     - name: Compile, Test and Validate
-      run: make ci
+      run: Get-Location
+    - name: Path.GetFullPath
+      run: Test-Path -Path "D:/a/clojerl/clojerl/_build/lib/test.check/src/target/cljs/self-host/clojure/test/check/test/aux.cljs" -IsValid
+    - name: Configure git and clone
+      run: bash -lc "git config --global core.protectNTFS false; git clone -c core.longpaths=true https://github.com/clojerl/test.check"
+    - name: Install Erlang
+      run: choco install -y erlang --version 22.3
+    - name: Install rebar3
+      run: choco install -y rebar3 --version 3.13.1
+    - name: Compile, Test and Validate
+      run: bash -lc "make ci"
     - name: Compile Native
-      run: make clean compile-native
+      run: bash -lc "make clean compile-native"
     - name: Generate Documentation
-      run: rebar3 docs
+      run: bash -lc "make docs"
     - name: Publish Documentation
       uses: actions/upload-artifact@v1
       with:
