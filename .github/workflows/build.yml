@@ -13,7 +13,7 @@ jobs:
     - name: Address 'invalid path' issue
       run: git config core.protectNTFS false
     - name: Git Clone
-      run: git clone https://github.com/clojerl/test.check
+      run: git clone https://github.com/clojerl/test.check -f
     - name: Install Erlang
       run: choco install -y erlang --version 22.3
     - name: Install rebar3
