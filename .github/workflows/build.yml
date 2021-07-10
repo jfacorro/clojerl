@@ -17,11 +17,11 @@ jobs:
     - name: Install rebar3
       run: choco install -y rebar3 --version 3.13.1
     - name: Compile, Test and Validate
-      run: C:\tools\msys64\usr\bin\bash -lc "make ci"
+      run: bash -lc "make ci"
     - name: Compile Native
-      run: make clean compile-native
+      run: bash -lc "make clean compile-native"
     - name: Generate Documentation
-      run: make docs
+      run: bash -lc "make docs"
     - name: Publish Documentation
       uses: actions/upload-artifact@v1
       with:
