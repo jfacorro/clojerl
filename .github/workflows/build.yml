@@ -10,10 +10,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Compile, Test and Validate
+      run: C:\tools\msys64\usr\bin\bash -lc "echo foo"
     - name: Install Erlang
-      run: choco install -y erlang --version 22.3
+      run: choco install -y erlang --version 24.0
     - name: Install rebar3
-      run: choco install -y rebar3 --version 3.16.1
+      run: choco install -y rebar3 --version 3.13.1
     - name: Compile, Test and Validate
       run: C:\tools\msys64\usr\bin\bash -lc "make ci"
     - name: Compile Native
