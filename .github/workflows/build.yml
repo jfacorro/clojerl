@@ -15,7 +15,7 @@ jobs:
     - name: Install rebar3
       run: choco install -y rebar3 --version 3.13.1
     - name: Compile, Test and Validate
-      run: DEBUG=1 make ci
+      run: export DEBUG=1; make ci
     - name: Compile Native
       run: make clean compile-native
     - name: Generate Documentation
